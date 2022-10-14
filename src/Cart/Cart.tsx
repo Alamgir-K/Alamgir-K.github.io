@@ -34,6 +34,20 @@ const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, handle
         return null
     }
 
+    function getPricingInfo(products: CartProductType[]) {
+        const cartTotal = getCartTotalPrice(products)
+        if (cartTotal > 0) {
+            return (
+                <div>
+                    <h4>Subtotal: ${cartTotal.toFixed(2)}</h4>
+                    <h4>Tax: ${((cartTotal * 1.13) - cartTotal).toFixed(2)}</h4>
+                    <h3>Total <span>(after tax)</span>: ${(cartTotal * 1.13).toFixed(2)}</h3>
+                </div>
+            )
+        }
+        return null
+    }
+
     return (
         <Wrapper>
             <div className="CartHeader">
@@ -49,7 +63,8 @@ const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, handle
                 <CartProduct key={product.id} product={product} addToCart={addToCart} removeFromCart={removeFromCart} />
             ))}
 
-            <h2>Total: ${getCartTotalPrice(cartProducts).toFixed(2)}</h2>
+            {getPricingInfo(cartProducts)}
+
         </Wrapper>
     )
 };
