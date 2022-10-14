@@ -75,7 +75,7 @@ function App() {
           product.quantity -= 1;
         }
 
-        if (product.quantity != 0) {
+        if (product.quantity !== 0) {
           products.push(product);
         }
       }

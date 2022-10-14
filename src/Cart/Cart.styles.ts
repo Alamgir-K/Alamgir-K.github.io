@@ -11,4 +11,14 @@ export const Wrapper = styled.div`
         display: flex;
         justify-content: space-between;
     }
+
+    .Pricing {
+        border-bottom: 2px solid black;
+        margin-bottom: 20px
+    }
+
+    .DiscountButton {
+        display: flex;
+        justify-content: space-between;
+    }
 `;

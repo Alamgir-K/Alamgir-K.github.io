@@ -10,6 +10,11 @@ export const Wrapper = styled.div`
         flex: 1
     }
 
+    button {
+        height: 20%;
+        margin-top: 10px;    
+    }
+
     .PriceButton {
         display: flex;
         justify-content: space-between;

@@ -6,6 +6,7 @@ import { Wrapper } from "./Cart.styles";
 
 import { IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import Button from "@mui/material/Button";
 
 type Props = {
     cartProducts: CartProductType[];
@@ -15,6 +16,12 @@ type Props = {
 }
 
 const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, handleCloseCart }) => {
+    var cartTotal = getCartTotalPrice(cartProducts)
+
+    function setCartTotalDiscount(discount: number) {
+        cartTotal = cartTotal * (1 - discount)
+    }
+
     function getCartTotalPrice(products: CartProductType[]) {
         var total = 0;
 
@@ -34,19 +41,35 @@ const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, handle
         return null
     }
 
-    function getPricingInfo(products: CartProductType[]) {
-        const cartTotal = getCartTotalPrice(products)
-        if (cartTotal > 0) {
-            return (
-                <div>
-                    <h4>Subtotal: ${cartTotal.toFixed(2)}</h4>
-                    <h4>Tax: ${((cartTotal * 1.13) - cartTotal).toFixed(2)}</h4>
-                    <h3>Total <span>(after tax)</span>: ${(cartTotal * 1.13).toFixed(2)}</h3>
-                </div>
-            )
-        }
-        return null
+    function getPricingInfo(total: number) {
+        return (
+            <div className="Pricing">
+                <h4>Subtotal: ${total.toFixed(2)}</h4>
+                <h4>Tax: ${((total * 1.13) - total).toFixed(2)}</h4>
+                <h3>Total <span>(after tax)</span>: ${(total * 1.13).toFixed(2)}</h3>
+            </div>
+        )
     }
+
+    function getDiscountButtons() {
+        return (
+            <div className="DiscountButton">
+                <Button size="small" disableElevation variant="contained" color="success" onClick={() => setCartTotalDiscount(0.1)}>
+                    10% Off
+                </Button>
+
+                <Button size="small" disableElevation variant="contained" color="success" onClick={() => setCartTotalDiscount(0.15)}>
+                    15% Off
+                </Button>
+
+                <Button size="small" disableElevation variant="contained" color="success" onClick={() => setCartTotalDiscount(0.2)}>
+                    20% Off
+                </Button>
+
+            </div>
+        )
+    }
+
 
     return (
         <Wrapper>
@@ -63,7 +86,9 @@ const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, handle
                 <CartProduct key={product.id} product={product} addToCart={addToCart} removeFromCart={removeFromCart} />
             ))}
 
-            {getPricingInfo(cartProducts)}
+            {cartTotal > 0 ? getPricingInfo(cartTotal) : null}
+
+            {cartTotal > 0 ? getDiscountButtons() : null}
 
         </Wrapper>
     )
