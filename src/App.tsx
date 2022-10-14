@@ -22,7 +22,7 @@ export type CartProductType = {
 }
 
 async function getProducts(): Promise<CartProductType[]> {
-  const request = await fetch('https:fakestoreapi.com/products');
+  const request = await fetch('https://fakestoreapi.com/products');
   const request_json = await request.json();
   return request_json
 }
